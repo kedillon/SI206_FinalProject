@@ -16,7 +16,7 @@ def scrape_reddit_politics():
     num_added = 0
     num_updated = 0
 
-    for submission in sub.hot(limit=20):
+    for submission in sub.hot(limit=500):
         submission_id = str(submission.id)
         author = str(submission.author)
         title = str(submission.title)
