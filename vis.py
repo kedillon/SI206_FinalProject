@@ -84,7 +84,7 @@ class RedditStats:
 
         all_data = []
         for author in numPosts_dict:
-            tup = (numPosts_dict[author] * 20, ratings_dict[author], comments_dict[author])
+            tup = (numPosts_dict[author] * 50, ratings_dict[author], comments_dict[author])
             #print(tup)
             all_data.append(tup)
 
@@ -93,7 +93,7 @@ class RedditStats:
         y_axis = [item[1] for item in all_data]
         radius = [item[0] for item in all_data]
 
-        graph = plt.scatter(x=x_axis, y=y_axis, s=radius, alpha=0.5)
+        graph = plt.scatter(x=x_axis, y=y_axis, s=radius, alpha=0.2)
         plt.title("Ratings, Comments, and Posts by Author")
         plt.xlabel("Number of Comments")
         plt.ylabel("Rating")
@@ -104,6 +104,6 @@ if __name__ == '__main__':
     #define a reddit object
     reddit = RedditStats()
 
-    reddit.generate_word_cloud()
-    reddit.most_common_authors()
+    #reddit.generate_word_cloud()
+    #reddit.most_common_authors()
     reddit.authors_numPosts_ratings()
