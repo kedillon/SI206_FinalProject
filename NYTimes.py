@@ -10,10 +10,11 @@ def scrape_nyt_politics():
     obama_dict = api.search(q = 'Immigration', begin_date = 20080120, end_date = 20080429)
     trump_dict = api.search(q = "Immigration", begin_date = 20160120, end_date = 20160429)
     #getting into docs
-    bush = bush_dict["response"]
-    obama = obama_dict["response"]
-    trump = trump_dict["response"]
-    print(bush)
+    bush = bush_dict["response"]["docs"][0]
+    
+    obama = obama_dict["response"]['docs'][0]
+    trump = trump_dict["response"]["docs"][0]
+    print("BUSH", bush,"OBAMA", obama,"TRUMP", trump)
     # Make bush json
     dumped_json_bush = json.dumps(bush)
     bw = open("bush_json","w")
@@ -29,13 +30,14 @@ def scrape_nyt_politics():
     tw = open
     tw.write("trump_json", "w")
     tw.close()
-def data_nyt(dumped_json_bush, dumped_json_obama, dumped_json_trump):   
+#def data_nyt(dumped_json_bush, dumped_json_obama, dumped_json_trump):   
 
     #make connection to database
-    conn = sqlite3.connect("NYT.sqlite")
-    cur = conn.cursor()
-    #cur.execute("CREATE TABLE IF DOESN'T EXIST")
-def visual_nyt()
+    #conn = sqlite3.connect("NYT.sqlite")
+    #cur = conn.cursor()
+    #cur.execute("CREATE TABLE IF DOESN'T EXIST NYT")
+    #cur.execute("CREATE TABLE NYT(")
+#def visual_nyt()
     
     
 if __name__ == '__main__':
