@@ -12,7 +12,7 @@ def news_scrape():
     conn = sqlite3.connect('Eva_test2.sqlite')
     cur = conn.cursor()
     
-    cur.execute('CREATE TABLE IF NOT EXISTS News(news_outlet TEXT, author TEXT, title TEXT, description TEXT, url TEXT, publishedAt TIMESTAMP, content TEXT, UNIQUE (content))')
+    cur.execute('CREATE TABLE IF NOT EXISTS News2(news_outlet TEXT, author TEXT, title TEXT, description TEXT, url TEXT, publishedAt TIMESTAMP, content TEXT, UNIQUE (title))')
     sql = "INSERT INTO News (news_outlet, author, title, description, url, publishedAt, content) VALUES (?, ?, ?, ?, ?, ?, ?)"
     articles = api.get_everything(q='politics') #returns dictionary
     
