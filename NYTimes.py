@@ -16,12 +16,11 @@ def scrape_nyt_politics():
     trump = trump_dict["response"]["docs"][0]
   
    
-def data_nyt(bush, obama, trump):   
+def database_nyt(bush, obama, trump):   
 
     #make connection to database
     conn = sqlite3.connect("NYT.sqlite")
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF DOESN'T EXIST NYT")
     cur.execute("CREATE TABLE NYT(url Text, headline TEXT, date INTEGER, source, TEXT )")
     # use a loop, the defined cursor, to execute INSERT statements, 
     #that insert the data from each admin into the correct columns in 
@@ -37,10 +36,15 @@ def data_nyt(bush, obama, trump):
         trumpData = (trump['web_url'], trump["headline"], trump["pub_date"], trump["source"])
         cur.execute(sql, trumpData)
     conn.commit()
+#def immigration_headline(cur):
+    #immigration_count = 0
+    #cur.execute("SELECT headline FROM NYT")
+    #for headline in bushData:
+        #if imm_count >= 20:
+
+
 #def visual_nyt(NYT)'''
     
     
-if __name__ == '__main__':
-    scrape_nyt_politics()
-
-
+#if __name__ == '__main__':
+    #scrape_nyt_politics()
