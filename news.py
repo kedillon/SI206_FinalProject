@@ -9,12 +9,12 @@ import sqlite3
 def news_scrape():
     api = NewsApiClient(api_key = news_api)
 
-    conn = sqlite3.connect('Eva-test.sqlite')
+    conn = sqlite3.connect('Final.sqlite')
     cur = conn.cursor()
     
-    cur.execute('CREATE TABLE IF NOT EXISTS Breaking(news_outlet TEXT, author TEXT, title TEXT, description TEXT, url TEXT, publishedAt TIMESTAMP, content TEXT, UNIQUE (news_outlet, author, title, description, url, publishedAt, content))')
+    cur.execute('CREATE TABLE IF NOT EXISTS News(news_outlet TEXT, author TEXT, title TEXT, description TEXT, url TEXT, publishedAt TIMESTAMP, content TEXT, UNIQUE (news_outlet, author, title, description, url, publishedAt, content))')
     
-    articles = api.get_everything(q='breaking', from_param='2019-03-20',
+    articles = api.get_everything(q='politics', from_param='2019-03-20',
                                       to='2019-04-22') #returns dictionary
     
     num = 0
@@ -22,7 +22,7 @@ def news_scrape():
         if num >= 20:
             break
         else:
-            sql = "INSERT OR IGNORE INTO Breaking(news_outlet, author, title, description, url, publishedAt, content) VALUES (?, ?, ?, ?, ?, ?, ?)"
+            sql = "INSERT OR IGNORE INTO News(news_outlet, author, title, description, url, publishedAt, content) VALUES (?, ?, ?, ?, ?, ?, ?)"
             # news_info = cur.fetchone()
             news_outlet = article['source']['name']
             news_author = article['author']
