@@ -7,16 +7,18 @@ import json
 
 def scrape_nyt_politics():
     api = articleAPI(nyt_key)
-    bush_dict = api.search(q="Immigration", begin_date = 20010120, end_date = 20010430)
-    obama_dict = api.search(q = 'Immigration', begin_date = 20080120, end_date = 20080429)
-    trump_dict = api.search(q = "Immigration", begin_date = 20160120, end_date = 20160429)
+    search_term = "immigration"
+    bush_dict = api.search(q= search_term, begin_date = 20010120, end_date = 20010430)
+    obama_dict = api.search(q = search_term, begin_date = 20080120, end_date = 20080429)
+    trump_dict = api.search(q = search_term, begin_date = 20160120, end_date = 20160429)
+  
     #getting into docs
     bush = bush_dict["response"]["docs"][0]
     
     obama = obama_dict["response"]['docs'][0]
     trump = trump_dict["response"]["docs"][0]
   
-   
+
 #def database_nyt(forty_three, forty_four, forty_five):   
 
     #make connection to database
@@ -30,15 +32,39 @@ def scrape_nyt_politics():
     
     
     # Getting Bush Data
-    bushData =(bush["web_url"], bush["headline"]["main"], bush["pub_date"], bush["source"])
-    cur.execute(sql, bushData)   
+    bush_num = 0
+    for bush_data in bush:
+        if bush_num >= 20:
+            break
+        else:
+            bush_url = bush_data["web_url"]
+            bush_headline = bush_data["headline"]["main"]
+            bush_date = bush_data["pub_date"]
+            bush_source = bush_data["source"]
+            bush_num += 1
+        bushValue = bush_url, bush_headline, bush_date, bush_source
+        cur.execute(sql, bushValue)   
     
     #Getting Obama Data
-    obamaData =(obama["web_url"], obama["headline"]["main"],  obama["pub_date"], obama["source"])
-    cur.execute(sql, obamaData)
+    '''
+    obama_num = 0
+    for obama_data in obama:
+        if obama_num >= 20:
+            break
+        else:
+            obamaData =(obama_data["web_url"], obama_data["headline"]["main"],  obama_data["pub_date"], obama_data["source"])
+            obama_num += 1
+        cur.execute(sql, obamaData)
     #Getting Trump Data
-    trumpData = (trump['web_url'], trump["headline"]["main"], trump["pub_date"], trump["source"])
-    cur.execute(sql, trumpData)
+    trump_num = 0
+    for trump_data in trump:
+        if trump_num >= 20:
+            break
+        else:
+            trumpData = (trump_data['web_url'], trump_data["headline"]["main"], trump_data["pub_date"], trump_data["source"])
+            trump_num +=1
+        cur.execute(sql, trumpData)
+'''
     conn.commit()
     
 
