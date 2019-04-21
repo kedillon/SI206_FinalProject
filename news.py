@@ -18,6 +18,7 @@ def news_scrape():
                                       to='2019-04-22') #returns dictionary
     
     num = 0
+    num_added = 0
     for article in articles['articles']:
         if num >= 20:
             break
@@ -32,13 +33,13 @@ def news_scrape():
             news_publishedAt = article['publishedAt']
             news_content = article['content']
         num += 1
+    
                 # cur.execute('SELECT title FROM News WHERE title =') How to check that this doesn't equal one in table already?
                 # if title is new:
         val = (news_outlet , news_author, news_title, news_description, news_url, news_publishedAt, news_content)
         cur.execute(sql, val)
         #  Use the database connection to commit the changes to the database
         conn.commit()
-    
 
 
 if __name__ == "__main__":
