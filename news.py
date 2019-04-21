@@ -14,7 +14,7 @@ def news_scrape():
     
     cur.execute('CREATE TABLE IF NOT EXISTS News(news_outlet TEXT, author TEXT, title TEXT, description TEXT, url TEXT, publishedAt TIMESTAMP, content TEXT, UNIQUE (news_outlet, author, title, description, url, publishedAt, content))')
     
-    articles = api.get_everything(q='politics', from_param='2019-03-20',
+    articles = api.get_everything(q='politics', from_param='2019-03-21',
                                       to='2019-04-22') #returns dictionary
     
     num = 0
@@ -39,13 +39,7 @@ def news_scrape():
         #  Use the database connection to commit the changes to the database
         conn.commit()
     
-def news_vis():
-    # analyzing sentiment of text;
-    # compares from different sources or different search terms
-    # cur.execute("SELECT * FROM news") # for news visual
-    # pass content string into sentiment analyzer
-    # graph sentiment of each article somehow
-    pass
+
 
 if __name__ == "__main__":
     news_scrape()
