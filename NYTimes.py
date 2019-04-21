@@ -13,10 +13,11 @@ def scrape_nyt_politics():
     trump_dict = api.search(q = search_term, begin_date = 20160120, end_date = 20160429)
   
     #getting into docs
-    bush = bush_dict["response"]["docs"][0]
+    forty_three = bush_dict["response"]["docs"][0]
     
-    obama = obama_dict["response"]['docs'][0]
-    trump = trump_dict["response"]["docs"][0]
+    forty_four = obama_dict["response"]['docs'][0]
+    forty_five = trump_dict["response"]["docs"][0]
+   
   
 
 #def database_nyt(forty_three, forty_four, forty_five):   
@@ -25,7 +26,7 @@ def scrape_nyt_politics():
     conn = sqlite3.connect("NYT.sqlite")
     cur = conn.cursor()
     # I think this is your problem: date should be TIMESTAMP, not TEXT
-    cur.execute("CREATE TABLE IF NOT EXISTS NYT(url Text, headline TEXT, date TEXT, source TEXT )")
+    cur.execute("CREATE TABLE IF NOT EXISTS NYT(url TEXT, headline TEXT, date TIMESTAMP, source TEXT )")
     
     #Make Sql file
     sql = "INSERT INTO NYT (url, headline, date, source) VALUES (?, ?, ?, ?)"
@@ -33,10 +34,19 @@ def scrape_nyt_politics():
     
     
     # Getting Bush Data
+    immigration = {}
+    for bush in forty_three["headline"]:
+        if search_term not in bush:
+            immigration[bush] = 1
+        else:
+            immigration[bush] +=1
+
+    '''
     bush_num = 0
     for bush_data in bush:
         if bush_num >= 20:
             break
+            
         else:
             bush_url = bush_data["web_url"]
             bush_headline = bush_data["headline"]["main"]
@@ -45,7 +55,7 @@ def scrape_nyt_politics():
             bush_num += 1
         bushValue = bush_url, bush_headline, bush_date, bush_source
         cur.execute(sql, bushValue)   
-    
+    '''
     #Getting Obama Data
     '''
     obama_num = 0
