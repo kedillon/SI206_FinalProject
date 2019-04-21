@@ -24,6 +24,7 @@ def scrape_nyt_politics():
     #make connection to database
     conn = sqlite3.connect("NYT.sqlite")
     cur = conn.cursor()
+    # I think this is your problem: date should be TIMESTAMP, not TEXT
     cur.execute("CREATE TABLE IF NOT EXISTS NYT(url Text, headline TEXT, date TEXT, source TEXT )")
     
     #Make Sql file
