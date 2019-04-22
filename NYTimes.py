@@ -7,6 +7,12 @@ import json
 
 def scrape_nyt_politics():
     api = articleAPI(nyt_key)
+    politics = "politics"
+    politics_dict = api.search(q = politics)
+    # get into docs
+    politics_data = politics_dict["response"]["docs"]
+    print("!!!!!!!!!!!", politics_data[0]["headline"]["main"])
+    '''
     search_term = "immigration"
     bush_dict = api.search(q= search_term, begin_date = 20010120, end_date = 20010430)
     obama_dict = api.search(q = search_term, begin_date = 20080120, end_date = 20080429)
@@ -19,7 +25,7 @@ def scrape_nyt_politics():
     forty_five = trump_dict["response"]["docs"][0]
     print(forty_three["headline"]["main"])
   
-
+'''
 #def database_nyt(forty_three, forty_four, forty_five):   
 
     #make connection to database
@@ -32,69 +38,40 @@ def scrape_nyt_politics():
     sql = "INSERT INTO NYT (url, headline, date, source) VALUES (?, ?, ?, ?)"
     
     
-    
-    # Getting Bush Data
-'''
-    bush_lst = []
-    print(forty_three["headline"]["main"])
-    for bush in forty_three["headline"]["main"]:
-    
-        if "Immigration" in bush:
-            bush_lst.append(bush)
-        elif "immigration" in bush:
-            bush_lst.append(bush)
-    print("BUSH", len(bush_lst))'''
-
-    bush_num = 0
-    for bush_data in bush:
-        if bush_num >= 20:
-            break
-            
+    # Get politics data
+    politics_num = 0
+    for data in politics_data:   
+        if politics_num >= 20:
+            pass
         else:
-            bush_url = bush_data["web_url"]
-            bush_headline = bush_data["headline"]["main"]
-            bush_date = bush_data["pub_date"]
-            bush_source = bush_data["source"]
-            bush_num += 1
-        bushValue = bush_url, bush_headline, bush_date, bush_source
-        cur.execute(sql, bushValue)   
-    
-    #Getting Obama Data
-    '''
-    obama_num = 0
-    for obama_data in obama:
-        if obama_num >= 20:
-            break
-        else:
-            obamaData =(obama_data["web_url"], obama_data["headline"]["main"],  obama_data["pub_date"], obama_data["source"])
-            obama_num += 1
-        cur.execute(sql, obamaData)
-    #Getting Trump Data
-    trump_num = 0
-    for trump_data in trump:
-        if trump_num >= 20:
-            break
-        else:
-            trumpData = (trump_data['web_url'], trump_data["headline"]["main"], trump_data["pub_date"], trump_data["source"])
-            trump_num +=1
-        cur.execute(sql, trumpData)
-'''
+            politics_num += 1
+            value = (data["web_url"], data["headline"]["main"], data["pub_date"], data["pub_date"])
+            cur.execute(sql, value)
     conn.commit()
+    # Getting Bush Data
+    #bush_lst = []
+    #for bush in forty_three["headline"]["main"]:
+    
+        #if "Immigration" in bush:
+            #bush_lst.append(bush)
+        #elif "immigration" in bush:
+            #bush_lst.append(bush)
     
 
-'''
-def immigration_headline(cur):
-    cur.execute("SELECT headline FROM NYT")
-    headline_dict = {}
-    for bushline in bushData["headline"]:
-        if "Immigration" in bushline:
-            if bushline not in headline
-                headline_dict["Bush"] = 0
-            else:
-                headline_dict["Bush"] += 1
-                '''
-        
-        
+    #bush_num = 0
+    #for bush_data in bush["headline"]["main"]:
+        #if bush_num >= 20:
+            #break
+            
+        #else:
+            #bush_url = bush_data["web_url"]
+            #bush_headline = bush_data["headline"]["main"]
+            #bush_date = bush_data["pub_date"]
+            #bush_source = bush_data["source"]
+            #bush_num += 1
+        #bushValue = bush_url, bush_headline, bush_date, bush_source
+        #cur.execute(sql, bushValue)   
+    
 
 
 #def visual_nyt(NYT)'''
