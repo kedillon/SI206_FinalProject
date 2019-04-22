@@ -13,11 +13,11 @@ def scrape_nyt_politics():
     trump_dict = api.search(q = search_term, begin_date = 20160120, end_date = 20160429)
   
     #getting into docs
-    forty_three = bush_dict["response"]["docs"][0]
-    
+    bush = bush_dict["response"]["docs"]
+    print(forty_three)
     forty_four = obama_dict["response"]['docs'][0]
     forty_five = trump_dict["response"]["docs"][0]
-   
+    print(forty_three["headline"]["main"])
   
 
 #def database_nyt(forty_three, forty_four, forty_five):   
@@ -34,14 +34,17 @@ def scrape_nyt_politics():
     
     
     # Getting Bush Data
-    immigration = {}
-    for bush in forty_three["headline"]:
-        if search_term not in bush:
-            immigration[bush] = 1
-        else:
-            immigration[bush] +=1
+'''
+    bush_lst = []
+    print(forty_three["headline"]["main"])
+    for bush in forty_three["headline"]["main"]:
+    
+        if "Immigration" in bush:
+            bush_lst.append(bush)
+        elif "immigration" in bush:
+            bush_lst.append(bush)
+    print("BUSH", len(bush_lst))'''
 
-    '''
     bush_num = 0
     for bush_data in bush:
         if bush_num >= 20:
@@ -55,7 +58,7 @@ def scrape_nyt_politics():
             bush_num += 1
         bushValue = bush_url, bush_headline, bush_date, bush_source
         cur.execute(sql, bushValue)   
-    '''
+    
     #Getting Obama Data
     '''
     obama_num = 0
