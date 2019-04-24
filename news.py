@@ -14,7 +14,7 @@ def news_scrape():
     
     cur.execute('CREATE TABLE IF NOT EXISTS News(news_outlet TEXT, author TEXT, title TEXT, description TEXT, url TEXT, publishedAt TIMESTAMP, content TEXT)')
     
-    articles = api.get_everything(q='politics', from_param='2019-03-23',
+    articles = api.get_everything(q='politics', from_param='2019-03-24',
                                       to='2019-04-25') #returns dictionary
     
     num = 0
