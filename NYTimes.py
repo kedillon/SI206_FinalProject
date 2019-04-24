@@ -9,7 +9,7 @@ import requests
 def get_dict(search_terms):
     
     data_dict = {}
-    
+    #API
     url = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' +search_terms + "&api-key=" + str(nyt_key)
     
     json_data = requests.get(url, allow_redirects=False)
