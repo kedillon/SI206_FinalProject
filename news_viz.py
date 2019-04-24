@@ -8,6 +8,7 @@ import nltk.data
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 sia = SIA()
 import matplotlib.pyplot as plt
+import sqlite3
 
 class NewsSentiment:
     def __init__(self):
@@ -30,7 +31,7 @@ class NewsSentiment:
             # loop through the list of strings/sentences
             for sentence in sentence_list:
                 # run each string through the analyzer -- take compound value from output
-                score = sia.polarity_scores()
+                score = sia.polarity_scores()['compound']
                 print(score)
                 # take compound score value from output
                 # append that number to a list
