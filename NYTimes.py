@@ -3,39 +3,44 @@ import sqlite3
 from nytimesarticle import articleAPI
 import json
 import requests
-#import response
+#import responses
 
 
-def get_dict():
-    url = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=politics&api-key=' + str(nyt_key)
+def get_dict(search_terms):
+    
+    data_dict = {}
+    #API
+    url = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' +search_terms + "&api-key=" + str(nyt_key)
+    
     json_data = requests.get(url, allow_redirects=False)
     json_data = json_data.json()
+    data_dict[term] = json_data
+    return data_dict
     
-    return json_data
 
 
-def scrape_nyt_politics():
-    politics_dict = get_dict()
+def scrape_nyt_politics(term):
+    politics_dict = get_dict(term)
     # get into docs
-    politics_data = politics_dict["response"]["docs"]
-    print("!!!!!!!!!!!", politics_data[0]["headline"]["main"])
+    return politics_dict[term]["response"]["docs"]
+    #print("!!!!!!!!!!!", politics_data)
     
-#def database_nyt(forty_three, forty_four, forty_five):   
+ 
 
-    #make connection to database
+    
+def politics_data(politics):
+        #make connection to database
     conn = sqlite3.connect("Final.sqlite")
     cur = conn.cursor()
     # I think this is your problem: date should be TIMESTAMP, not TEXT
-    cur.execute("CREATE TABLE IF NOT EXISTS NYT(url TEXT, headline TEXT, date TIMESTAMP, source TEXT )")
+    cur.execute("CREATE TABLE IF NOT EXISTS NYT(url TEXT, headline TEXT, date TIMESTAMP, source TEXT, snippet TEXT )")
     
     #Make Sql file
-    sql = "INSERT INTO NYT (url, headline, date, source) VALUES (?, ?, ?, ?)"
-    
-    
-    # Get politics data
+    sql = "INSERT INTO NYT (url, headline, date, source, snippet) VALUES (?, ?, ?, ?, ?)"
+     
     politics_num = 0
-    print(len(politics_data))
-    for data in politics_data:   
+    #print(len(politics_data))
+    for data in politics:   
         if politics_num >= 20:
             break
         else:
@@ -45,12 +50,12 @@ def scrape_nyt_politics():
             #Check to see if politicsData not already in tagit ble
             if politicsData == None:
                 #ADD TO TABLE
-                value = (data["web_url"], data["headline"]["main"], data["pub_date"], data["pub_date"])
+                value = (data["web_url"], data["headline"]["main"], data["pub_date"], data["source"],data['snippet'])
                 cur.execute(sql, value)
-        print(politics_num)
+        #print(politics_num)
 
 
-    conn.commit()
+                conn.commit()
    
     
 
@@ -60,5 +65,8 @@ def scrape_nyt_politics():
     
     
 if __name__ == '__main__':
-    #get_dict()
-    scrape_nyt_politics()
+    # get_dict()
+    search_terms = ['politics', 'news', 'election', 'immigration', 'technology']
+    for term in search_terms:
+
+        politics_data(scrape_nyt_politics(term))
