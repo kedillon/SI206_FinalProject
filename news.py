@@ -14,8 +14,8 @@ def news_scrape():
     
     cur.execute('CREATE TABLE IF NOT EXISTS News(news_outlet TEXT, author TEXT, title TEXT, description TEXT, url TEXT, publishedAt TIMESTAMP, content TEXT)')
     
-    articles = api.get_everything(q='politics', from_param='2019-03-22',
-                                      to='2019-04-23') #returns dictionary
+    articles = api.get_everything(q='politics', from_param='2019-03-23',
+                                      to='2019-04-25') #returns dictionary
     
     num = 0
     
@@ -35,10 +35,11 @@ def news_scrape():
         cur.execute('SELECT * FROM News WHERE title = "%s"' % news_title) 
         row_info = cur.fetchone()
         if row_info == None:
+            #  Use the database connection to commit the changes to the database
             sql = "INSERT OR IGNORE INTO News(news_outlet, author, title, description, url, publishedAt, content) VALUES (?, ?, ?, ?, ?, ?, ?)"
             val = (news_outlet , news_author, news_title, news_description, news_url, news_publishedAt, news_content)
             cur.execute(sql, val)
-        #  Use the database connection to commit the changes to the database
+        
     conn.commit()
 
 
