@@ -41,7 +41,7 @@ class NewsSentiment:
                 sentiment_dict[title] = score
         print(sentiment_dict)
         # get average value from this list (total_sentiment/number_of_values)
-        
+        print(score_list)
         # could make dictionary of {title: score}
         
         # score = sia.polarity_scores()
