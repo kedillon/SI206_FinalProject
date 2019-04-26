@@ -24,24 +24,29 @@ class NewsSentiment:
         score_list = []
         article_count = 0
         for row in self.info:
+            num_sentence = 0
             title = row[2]
             content = row[-1]
             if content != None:
-            # split strings into list of sentences -- split on '.'
-                sentence_list = title.split('.')
-                article_count += 1
-            # run each string (loop) through the analyzer -- take compound value from output
-                for sentence in sentence_list:
-                    score = sia.polarity_scores(sentence)['compound'] 
-                    score_list.append(score)        # appending score to an overall score list
-                    sentiment_dict[title] = score   # dictionary accumulation
-            else:
-                pass
+                if content != "Chat with us in Facebook Messenger. Find out what's happening in the world as it unfolds.":
+                    print(content)
+                # split strings into list of sentences -- split on '.'
+                    sentence_list = title.split('.')
+                    article_count += 1
+                    num_sentence = len(sentence_list)
+                # run each string (loop) through the analyzer -- take compound value from output
+                    for sentence in sentence_list:
+                        raw_score = sia.polarity_scores(sentence)['compound'] 
+                        score_list.append(raw_score)        # appending score to an overall score list
+                        total = sum(score_list)
+                        avg_score = total/num_sentence
+                        sentiment_dict[title] = avg_score   # dictionary accumulation
+                else:
+                    pass
         print(sentiment_dict)
         print(len(sentiment_dict))
         # get average value from this list (total_sentiment/number_of_values)
-        print(score_list)
-        print(len(score_list))
+    # get num of positive and num of negative??
         # could make dictionary of {title: score}
         
         # score = sia.polarity_scores()
@@ -61,9 +66,9 @@ class NewsSentiment:
         #   content as list of content strings --> take average length of each outlet's releases
         '''
         pass
-    def sentiment_chart():
+    def sentiment_chart(self):
         pass
-    def avg_length_chart():
+    def avg_length_chart(self):
         pass
 
 
