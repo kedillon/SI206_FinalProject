@@ -21,7 +21,7 @@ class NewsSentiment:
     def content_sentiment_calculator(self):
         # take data from table : self.info
         sentiment_dict = {}
-        overall_list = []
+        score_list = []
         article_count = 0
         for row in self.info:
             title = row[2]
@@ -30,18 +30,18 @@ class NewsSentiment:
             # split strings into list of sentences -- split on '.'
                 sentence_list = title.split('.')
                 article_count += 1
-            # loop through the list of strings/sentences
-            score_list = []
-            for sentence in sentence_list:
-                # run each string through the analyzer -- take compound value from output
-                score = sia.polarity_scores(sentence)['compound']
-                # print(score)
-                # append that number to a list & add data to dictionary
-                score_list.append(score)
-                sentiment_dict[title] = score
+            # run each string (loop) through the analyzer -- take compound value from output
+                for sentence in sentence_list:
+                    score = sia.polarity_scores(sentence)['compound'] 
+                    score_list.append(score)        # appending score to an overall score list
+                    sentiment_dict[title] = score   # dictionary accumulation
+            else:
+                pass
         print(sentiment_dict)
+        print(len(sentiment_dict))
         # get average value from this list (total_sentiment/number_of_values)
         print(score_list)
+        print(len(score_list))
         # could make dictionary of {title: score}
         
         # score = sia.polarity_scores()
