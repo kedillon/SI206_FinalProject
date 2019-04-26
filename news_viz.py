@@ -7,6 +7,7 @@ import nltk
 import nltk.data
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 sia = SIA()
+import matplotlib
 import matplotlib.pyplot as plt
 import sqlite3
 
@@ -18,9 +19,10 @@ class NewsSentiment:
         #select all data from db
         cur.execute('SELECT * FROM News')
         self.info = cur.fetchall()
+        self.sentiment_dict = {}
     def content_sentiment_calculator(self):
         # take data from table : self.info
-        sentiment_dict = {}
+        
         score_list = []
         article_count = 0
         for row in self.info:
@@ -29,7 +31,6 @@ class NewsSentiment:
             content = row[-1]
             if content != None:
                 if content != "Chat with us in Facebook Messenger. Find out what's happening in the world as it unfolds.":
-                    print(content)
                 # split strings into list of sentences -- split on '.'
                     sentence_list = title.split('.')
                     article_count += 1
@@ -39,22 +40,18 @@ class NewsSentiment:
                         raw_score = sia.polarity_scores(sentence)['compound'] 
                         score_list.append(raw_score)        # appending score to an overall score list
                         total = sum(score_list)
-                        avg_score = total/num_sentence
-                        sentiment_dict[title] = avg_score   # dictionary accumulation
+                        avg_score = total/num_sentence      # get avg score for each article
+                        self.sentiment_dict[title] = avg_score   # dictionary accumulation
                 else:
                     pass
-        print(sentiment_dict)
-        print(len(sentiment_dict))
-        # get average value from this list (total_sentiment/number_of_values)
-    # get num of positive and num of negative??
-        # could make dictionary of {title: score}
-        
-        # score = sia.polarity_scores()
-        # analyzing sentiment of text;
-        # cur.execute("SELECT * FROM news") # for news visual
-        # pass content string into sentiment analyzer
-        # graph sentiment of each article somehow
+        return self.sentiment_dict
+
     def avg_article_length(self):
+        # length_article_dict = {}
+        # for row in self.info:
+        #     art_len = len(row[-1].split())
+        #     length_article_dict[row[1]].append(len)
+        # maybe add the length value to another row in table??
         '''
         outlet_length_dict = {}
         for row in self.info:
@@ -67,7 +64,17 @@ class NewsSentiment:
         '''
         pass
     def sentiment_chart(self):
-        pass
+        xvals = self.sentiment_dict.keys()
+        yvals = self.sentiment_dict.values()
+        plt.bar(xvals, yvals, align = "center")
+
+        plt.xlabel("Article Titles")
+        plt.ylabel("Average Sentiment of Article Content")
+        plt.title("Average Sentiment of News Articles about Politics 2019")
+        #3.Give ylabel to the plot
+        plt.savefig("sentiment.png")
+        plt.show()
+        
     def avg_length_chart(self):
         pass
 
@@ -75,5 +82,6 @@ class NewsSentiment:
 if __name__ == "__main__":
     news1 = NewsSentiment()
     news1.content_sentiment_calculator()
+    news1.sentiment_chart()
     
 
