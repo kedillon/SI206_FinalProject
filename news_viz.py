@@ -19,20 +19,19 @@ class NewsSentiment:
         #select all data from db
         cur.execute('SELECT * FROM News')
         self.info = cur.fetchall()
-        self.raw_sentiment_dict = {}
+        self.raw_sia_dict = {}
         self.outlet_counts_dict = {}
+        self.avg_sia_dict = {}
+        self.total_articles = 0
     
     def articles_per_outlet(self):
-        total_articles = 0
         for row in self.info:
             outlet = row[0]
             content = row[-1]
             if content != None:
                 if content != "Chat with us in Facebook Messenger. Find out what's happening in the world as it unfolds.":
                     self.outlet_counts_dict[outlet] = self.outlet_counts_dict.get(outlet, 0) + 1
-                    total_articles += 1
-        print(total_articles)
-        print(self.outlet_counts_dict)
+                    # self.total_articles += 1
         return self.outlet_counts_dict
 
     def content_sentiment_calculator(self):
@@ -49,43 +48,50 @@ class NewsSentiment:
                     article_count += 1
                     num_sentence = len(sentence_list)
                 # run each string (loop) through the analyzer -- take compound value from output
-                    score_list = []
+                    # score_list = []
+                    article_score = 0
                     for sentence in sentence_list:
                         raw_score = sia.polarity_scores(sentence)['compound'] # this is the score per sentence
                         # get avg score for each article
-                        score_list.append(raw_score)        # appending score to an overall score list per article
-                        total = sum(score_list)
-                        avg_score = total/num_sentence      # get avg score for each article
+                        # score_list.append(raw_score)        # appending score to an overall score list per article
+                        article_score += raw_score
+                        avg_score = article_score/num_sentence      # get avg score for each article
                         # dictionary accumulation
-                        self.raw_sentiment_dict[news_outlet] = self.raw_sentiment_dict.get(news_outlet, 0) + avg_score  # dictionary accumulation: ADD scores together
-                        # make a separate for loop to count the number of articles from each news_outlet
+                        self.raw_sia_dict[news_outlet] = self.raw_sia_dict.get(news_outlet, 0) + avg_score  # dictionary accumulation: ADD scores together
+                        # make a separate for loop to count the number of articles from each news_outlet --> other function
                 else:
                     pass
-        print(self.raw_sentiment_dict)
-        return self.raw_sentiment_dict
+        return self.raw_sia_dict
+    
+    def avg_sentiment_per_oulet(self):
+        for outlet in self.raw_sia_dict:
+            avg_sentiment = self.raw_sia_dict[outlet]/self.outlet_counts_dict[outlet]
+            self.avg_sia_dict[outlet] = avg_sentiment
+        return self.avg_sia_dict
 
-        # *** IDEA: bubble chart possibly where color correlates to news outlet, size==polarity level,
 
     def sentiment_chart(self):
         # switch to scatterplot and change xvals ****
-        xvals = self.sentiment_dict.keys()
-        yvals = self.sentiment_dict.values()
-        plt.bar(xvals, yvals)
-        plt.xticks(rotation=45)
-        plt.xlabel("Articles Polarity")
-        plt.ylabel("Average Sentiment of Article Content")
+        # could create BUBBLE CHART where color correlates to news outlet, size==polarity level,
+        xvals = self.avg_sia_dict.keys()
+        yvals = self.avg_sia_dict.values()
+        plt.bar(xvals, yvals, align="center", color =["#001049","red","#f2d372", "blue","orange", "#90a1c5", "purple", "#d64b4b", "#1e5b9f", "green", "#a1cec1", "#fb4747"])
+        plt.xticks(rotation=90, fontsize=6)
+        plt.yticks(fontsize=6)
+        plt.xlabel("News Outlet")
+        plt.ylabel("Average Polarity Score of Article Content")
         plt.title("Average Sentiment of News Articles by News Outlet")
+        plt.tight_layout()
+
         plt.savefig("sentiment.png")
         plt.show()
-        
-    def avg_length_chart(self):
-        pass
 
 if __name__ == "__main__":
     news1 = NewsSentiment()
     news1.articles_per_outlet()
     news1.content_sentiment_calculator()
-    # news1.sentiment_chart()
+    news1.avg_sentiment_per_oulet()
+    news1.sentiment_chart()
     # news1.article_counts()
     # news1.avg_article_length()
     
