@@ -1,4 +1,5 @@
-from nyt_info import nyt_key
+from NYT_info import nyt_key
+from NYT_info import nyt_secret
 import sqlite3
 from nytimesarticle import articleAPI
 import json
@@ -6,11 +7,12 @@ import requests
 #import responses
 
 
-def get_dict(search_terms):
+def get_dict(search_terms, page = 1):
     
     data_dict = {}
     #API
-    url = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' +search_terms + "&api-key=" + str(nyt_key)
+    page = 0
+    url = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' +search_terms + "&api-key=" + str(nyt_key) + "&page="+ str(page)
     
     json_data = requests.get(url, allow_redirects=False)
     json_data = json_data.json()
@@ -21,8 +23,14 @@ def get_dict(search_terms):
 
 def scrape_nyt_politics(term):
     politics_dict = get_dict(term)
+    print(politics_dict[term])
     # get into docs
-    return politics_dict[term]["response"]["docs"]
+    if politics_dict[term] == None:
+        pass
+    else:
+        politics = politics_dict[term]["response"]["docs"]
+    
+    return politics
     #print("!!!!!!!!!!!", politics_data)
     
  
@@ -30,9 +38,8 @@ def scrape_nyt_politics(term):
     
 def politics_data(politics):
         #make connection to database
-    conn = sqlite3.connect("Final.sqlite")
+    conn = sqlite3.connect("Test.sqlite")
     cur = conn.cursor()
-    # I think this is your problem: date should be TIMESTAMP, not TEXT
     cur.execute("CREATE TABLE IF NOT EXISTS NYT(url TEXT, headline TEXT, date TIMESTAMP, source TEXT, snippet TEXT )")
     
     #Make Sql file
@@ -55,18 +62,38 @@ def politics_data(politics):
         #print(politics_num)
 
 
-                conn.commit()
+    conn.commit()
    
     
 
     
 
-#def visual_nyt(NYT)'''
+def visual_nyt(cur, terms):
+    headline_count = {}
+   
+    for term in terms:
+        cur.execute("SELECT headline FROM NYT")
+        for headline in cur:
+            headline = headline[0].lower()
+            print(headline)
+            if term in headline:
+                print(term)
+                if term in headline_count:
+                    headline_count[term] += 1
+                else:
+                    headline_count[term] = 1
+    print(headline_count)
+    return headline_count
+    
     
     
 if __name__ == '__main__':
-    # get_dict()
-    search_terms = ['politics', 'news', 'election', 'immigration', 'technology']
+    #get_dict()
+    
+    search_terms = ['politics', 'impeach', 'election', 'immigration', 'technology', 'news', 'president', 'shooting', 'wall','trump', "america", "pelosi", 'constitution']
     for term in search_terms:
-
         politics_data(scrape_nyt_politics(term))
+        
+    conn = sqlite3.connect("Test.sqlite")
+    cur = conn.cursor()
+    visual_nyt(cur,search_terms)
