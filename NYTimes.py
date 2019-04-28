@@ -7,7 +7,7 @@ import requests
 #import responses
 
 
-def get_dict(search_terms, page = 1):
+def get_dict(search_terms, page = 2):
     
     data_dict = {}
     #API
@@ -18,8 +18,7 @@ def get_dict(search_terms, page = 1):
     json_data = json_data.json()
     data_dict[term] = json_data
     return data_dict
-    
-
+     
 
 def scrape_nyt_politics(term):
     politics_dict = get_dict(term)
@@ -72,7 +71,7 @@ def visual_nyt(cur, terms):
     headline_count = {}
    
     for term in terms:
-        cur.execute("SELECT headline FROM NYT")
+        cur.execute("SELECT headline FROM NYT LIMIT 20")
         for headline in cur:
             headline = headline[0].lower()
             print(headline)
