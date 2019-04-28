@@ -7,7 +7,7 @@ import requests
 #import responses
 
 
-def get_dict(search_terms, page = 2):
+def get_dict(search_terms, page = 0):
     
     data_dict = {}
     #API
