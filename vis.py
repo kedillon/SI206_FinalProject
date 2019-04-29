@@ -13,14 +13,25 @@ class RedditStats:
         cur.execute('SELECT * FROM Reddit')
         self.data = cur.fetchall()
 
-    def generate_word_cloud(self):
+    #takes dict and filename
+    def write_to_file(self, filename, data):
+        file = open(filename, 'w+')
+
+        data = sorted(data.items(), key = lambda tup : tup[1], reverse=True)
+
+        for tup in data:
+            line = str(tup[0]) + ": " + str(tup[1])
+            file.write(line)
+            file.write("\n")
+
+    def generate_word_cloud(self, write=False):
         #natural language processing
         nlp = spacy.load("en_core_web_sm")
 
         #all_words = []
         words_dict = {}
         #words to ignore in most common
-        ignore = ['just', 'all', 'more', 'us', 'how', 'over', "'m", '|', 'if', 'to', 'of', 'in', 'is', 'on', 'and', 'for', 'it', 'as', 'a', 'not', "n't", "n’t", "that", "the", "or", "with", "are", "we", "’s", "'s", "his", "say", "says", "from", "do", "be", "he", "i", "out", "at", "after", "new", "about", "by", "was", "has"]
+        ignore = ['did','just', 'all', 'more', 'us', 'how', 'over', "'m", '|', 'if', 'to', 'of', 'in', 'is', 'on', 'and', 'for', 'it', 'as', 'a', 'not', "n't", "n’t", "that", "the", "or", "with", "are", "we", "’s", "'s", "his", "say", "says", "from", "do", "be", "he", "i", "out", "at", "after", "new", "about", "by", "was", "has"]
 
         title_list = [item[2] for item in self.data]
 
@@ -37,6 +48,9 @@ class RedditStats:
                     #all_words.append(word)
 
         #print(sorted(words_dict.items(), key = lambda tup : tup[1]))
+        if write:
+            filename = 'word_cloud_data.txt'
+            self.write_to_file(filename, words_dict)
 
         wc = WordCloud(background_color="white",width=1000,height=1000, max_words=30,relative_scaling=0.5,normalize_plurals=False).generate_from_frequencies(words_dict)
         plt.axis("off")
@@ -152,7 +166,7 @@ if __name__ == '__main__':
     #define a reddit object
     reddit = RedditStats()
 
-    reddit.generate_word_cloud()
+    reddit.generate_word_cloud(write=True)
     #reddit.most_common_authors()
     #reddit.authors_numPosts_ratings()
     #reddit.authors_numPosts_ratings_noOutliers(2, 2)
