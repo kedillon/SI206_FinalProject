@@ -152,7 +152,7 @@ if __name__ == '__main__':
     #define a reddit object
     reddit = RedditStats()
 
-    #reddit.generate_word_cloud()
+    reddit.generate_word_cloud()
     #reddit.most_common_authors()
     #reddit.authors_numPosts_ratings()
-    reddit.authors_numPosts_ratings_noOutliers(2, 2)
+    #reddit.authors_numPosts_ratings_noOutliers(2, 2)
