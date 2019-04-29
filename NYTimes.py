@@ -52,10 +52,10 @@ def politics_data(politics):
         #make connection to database
     conn = sqlite3.connect("Final.sqlite")
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS NYT(url TEXT, headline TEXT, date TIMESTAMP, source TEXT, snippet TEXT )")
+    cur.execute("CREATE TABLE IF NOT EXISTS NYT(url TEXT, headline TEXT, date TIMESTAMP, source TEXT )")
     
     #Make Sql file
-    sql = "INSERT INTO NYT (url, headline, date, source, snippet) VALUES (?, ?, ?, ?, ?)"
+    sql = "INSERT INTO NYT (url, headline, date, source) VALUES (?, ?, ?, ?)"
      
     politics_num = 0
     #print(len(politics_data))
@@ -69,7 +69,7 @@ def politics_data(politics):
             #Check to see if politicsData not already in tagit ble
             if politicsData == None:
                 #ADD TO TABLE
-                value = (data["web_url"], data["headline"]["main"], data["pub_date"], data["source"],data['snippet'])
+                value = (data["web_url"], data["headline"]["main"], data["pub_date"], data["source"])
                 cur.execute(sql, value)
         #print(politics_num)
 
