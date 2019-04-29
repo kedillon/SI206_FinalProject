@@ -32,6 +32,7 @@ class NewsSentiment:
                 if content != "Chat with us in Facebook Messenger. Find out what's happening in the world as it unfolds.":
                     self.outlet_counts_dict[outlet] = self.outlet_counts_dict.get(outlet, 0) + 1
                     # self.total_articles += 1
+
         return self.outlet_counts_dict
 
     def content_sentiment_calculator(self):
@@ -61,14 +62,28 @@ class NewsSentiment:
                         # make a separate for loop to count the number of articles from each news_outlet --> other function
                 else:
                     pass
+
         return self.raw_sia_dict
     
     def avg_sentiment_per_oulet(self):
         for outlet in self.raw_sia_dict:
             avg_sentiment = self.raw_sia_dict[outlet]/self.outlet_counts_dict[outlet]
             self.avg_sia_dict[outlet] = avg_sentiment
+
         return self.avg_sia_dict
 
+    def calculations_write_file(self):
+        f = open('sentiment_calculations.txt', 'w')
+        f.write('articles_per_outlet counts the number of articles from each news outlet in the News table that will be used in the analysis \n')
+        for outlet in self.outlet_counts_dict:
+            f.write('{} has {} articles. \n'.format(outlet, self.outlet_counts_dict[outlet]))
+        f.write('\ncontent_sentiment_calculator calculates the average polarity score for each article and adds together those for each news source from the News table \n')
+        for outlet in self.raw_sia_dict:
+            f.write('{} has a cumulative polarity score of {}.\n'.format(outlet, self.raw_sia_dict[outlet]))
+        f.write('\navg_sentiment_per_outlet calculates the average polarity for each news source in the News table \n')
+        for outlet in self.avg_sia_dict:
+            f.write('{} has an average polarity score of {}.\n'.format(outlet, self.avg_sia_dict[outlet]))
+        f.close()
 
     def sentiment_chart(self):
         # switch to scatterplot and change xvals ****
@@ -82,9 +97,7 @@ class NewsSentiment:
         plt.ylabel("Average Polarity Score of Article Content")
         plt.title("Average Sentiment of News Articles by News Outlet")
         plt.tight_layout()
-
         plt.savefig("sentiment.png")
-        plt.show()
 
 if __name__ == "__main__":
     news1 = NewsSentiment()
@@ -92,7 +105,4 @@ if __name__ == "__main__":
     news1.content_sentiment_calculator()
     news1.avg_sentiment_per_oulet()
     news1.sentiment_chart()
-    # news1.article_counts()
-    # news1.avg_article_length()
-    
-
+    news1.calculations_write_file()
