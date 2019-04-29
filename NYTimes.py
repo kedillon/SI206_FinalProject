@@ -80,6 +80,7 @@ def politics_data(politics):
 
     
 
+        
 def visual_nyt(cur, terms):
     headline_count = {}
    
@@ -87,17 +88,18 @@ def visual_nyt(cur, terms):
         cur.execute("SELECT headline FROM NYT LIMIT 20")
         for headline in cur:
             headline = headline[0].lower()
-            print(headline)
             if term in headline:
-                print(term)
                 if term in headline_count:
                     headline_count[term] += 1
                 else:
                     headline_count[term] = 1
-    print(headline_count)
     return headline_count
-    
-    
+
+def calculations_file(headline_count):
+        file = open("calculations.txt", "w")
+        file.write("headline_count counts the number of times the terms in search terms appear in each headline: \n")
+        for term in headline_count:
+            file.write("{} has {} headlines, ".format(term, headline_count[term]))
     
 if __name__ == '__main__':
     #get_dict()
@@ -108,4 +110,5 @@ if __name__ == '__main__':
         
     conn = sqlite3.connect("Final.sqlite")
     cur = conn.cursor()
-    visual_nyt(cur,search_terms)
+    headline_count = visual_nyt(cur,search_terms)
+    calculations_file(headline_count)
