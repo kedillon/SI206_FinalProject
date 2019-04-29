@@ -34,9 +34,10 @@ class NYT_data():
         plt.xlabel("Headline Topic")
         plt.ylabel("Headline Count")
         plt.title("Politics Headlines")
-        plt.savefig("nyt_data.png")
         plt.tight_layout()
+        plt.savefig("nyt_data.png")
         plt.show()
+    
 
 if __name__ == '__main__':
     NYT = NYT_data()
