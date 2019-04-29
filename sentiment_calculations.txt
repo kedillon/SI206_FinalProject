@@ -1,0 +1,58 @@
+articles_per_outlet counts the number of articles from 
+each news outlet in the News table that 
+will be used in the analysis: 
+
+Yahoo.com has 3 articles. 
+Sciencemag.org has 1 articles. 
+Engadget has 3 articles. 
+The New York Times has 51 articles. 
+Entrepreneur.com has 1 articles. 
+Mashable has 6 articles. 
+Wired has 5 articles. 
+The Times of India has 1 articles. 
+CNN has 4 articles. 
+Lifehacker.com has 3 articles. 
+BBC News has 2 articles. 
+TechCrunch has 5 articles. 
+Gizmodo.com has 5 articles. 
+The Verge has 3 articles. 
+---------------------------------
+
+content_sentiment_calculator calculates the average 
+polarity score for each article and 
+adds together those for each news source from the News table: 
+
+Yahoo.com has a cumulative polarity score of -0.0211.
+Sciencemag.org has a cumulative polarity score of 0.4215.
+Engadget has a cumulative polarity score of 0.601833333333.
+The New York Times has a cumulative polarity score of 3.10255666667.
+Entrepreneur.com has a cumulative polarity score of -0.0716666666667.
+Mashable has a cumulative polarity score of 1.16955833333.
+Wired has a cumulative polarity score of 2.27765.
+The Times of India has a cumulative polarity score of -0.3182.
+CNN has a cumulative polarity score of 0.7503.
+Lifehacker.com has a cumulative polarity score of 0.92.
+BBC News has a cumulative polarity score of -0.4648.
+TechCrunch has a cumulative polarity score of 1.45207.
+Gizmodo.com has a cumulative polarity score of -1.63831666667.
+The Verge has a cumulative polarity score of -0.6009.
+---------------------------------
+
+avg_sentiment_per_outlet calculates 
+the average polarity for each 
+news source in the News table: 
+
+Yahoo.com has an average polarity score of -0.00703333333333.
+Sciencemag.org has an average polarity score of 0.4215.
+CNN has an average polarity score of 0.187575.
+The New York Times has an average polarity score of 0.0608344444444.
+Engadget has an average polarity score of 0.200611111111.
+Mashable has an average polarity score of 0.194926388889.
+Wired has an average polarity score of 0.45553.
+The Times of India has an average polarity score of -0.3182.
+Entrepreneur.com has an average polarity score of -0.0716666666667.
+Gizmodo.com has an average polarity score of -0.327663333333.
+BBC News has an average polarity score of -0.2324.
+TechCrunch has an average polarity score of 0.290414.
+The Verge has an average polarity score of -0.2003.
+Lifehacker.com has an average polarity score of 0.306666666667.

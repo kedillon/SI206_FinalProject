@@ -2,7 +2,6 @@
 # SI 206: Final Project Winter 2019 -- Data Calculations & Visualization(s)
 # April 23, 2019
 
-from news import news_scrape
 import nltk
 import nltk.data
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
@@ -74,13 +73,13 @@ class NewsSentiment:
 
     def calculations_write_file(self):
         f = open('sentiment_calculations.txt', 'w')
-        f.write('articles_per_outlet counts the number of articles from each news outlet in the News table that will be used in the analysis \n')
+        f.write('articles_per_outlet counts the number of articles from \neach news outlet in the News table that \nwill be used in the analysis: \n\n')
         for outlet in self.outlet_counts_dict:
             f.write('{} has {} articles. \n'.format(outlet, self.outlet_counts_dict[outlet]))
-        f.write('\ncontent_sentiment_calculator calculates the average polarity score for each article and adds together those for each news source from the News table \n')
+        f.write('---------------------------------\n\ncontent_sentiment_calculator calculates the average \npolarity score for each article and \nadds together those for each news source from the News table: \n\n')
         for outlet in self.raw_sia_dict:
             f.write('{} has a cumulative polarity score of {}.\n'.format(outlet, self.raw_sia_dict[outlet]))
-        f.write('\navg_sentiment_per_outlet calculates the average polarity for each news source in the News table \n')
+        f.write('---------------------------------\n\navg_sentiment_per_outlet calculates \nthe average polarity for each \nnews source in the News table: \n\n')
         for outlet in self.avg_sia_dict:
             f.write('{} has an average polarity score of {}.\n'.format(outlet, self.avg_sia_dict[outlet]))
         f.close()
@@ -99,10 +98,24 @@ class NewsSentiment:
         plt.tight_layout()
         plt.savefig("sentiment.png")
 
+    def sentiment_scatter(self):
+        x = self.avg_sia_dict.values()
+        y = self.outlet_counts_dict.values()
+        plt.scatter(x,y)
+        plt.xticks(rotation=0)
+        plt.xlabel("Average Polarity Score")
+        plt.ylabel("Number of Articles")
+        plt.title("Average Polarity Compared to Number of Articles")
+        plt.tight_layout()
+        plt.savefig("sentiment_scatter.png")    
+
 if __name__ == "__main__":
     news1 = NewsSentiment()
     news1.articles_per_outlet()
     news1.content_sentiment_calculator()
     news1.avg_sentiment_per_oulet()
-    news1.sentiment_chart()
-    news1.calculations_write_file()
+    """can uncomment code below to regenerate each plot individually or rewrite the text file"""
+    # news1.sentiment_chart()  
+    # news1.sentiment_scatter()
+    # news1.calculations_write_file()
+
