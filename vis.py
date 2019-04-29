@@ -55,6 +55,7 @@ class RedditStats:
         wc = WordCloud(background_color="white",width=1000,height=1000, max_words=30,relative_scaling=0.5,normalize_plurals=False).generate_from_frequencies(words_dict)
         plt.axis("off")
         plt.imshow(wc)
+        plt.savefig('redditWC')
         plt.show()
 
     def most_common_authors(self):
@@ -71,6 +72,7 @@ class RedditStats:
         y_axis = [item[1] for item in sorted_authors[:5]]
 
         graph = plt.bar(x=x_axis, height=y_axis)
+        plt.savefig('most_common_authors')
         plt.show()
 
     def authors_numPosts_ratings(self):
@@ -111,6 +113,7 @@ class RedditStats:
         plt.title("Ratings, Comments, and Posts by Author")
         plt.xlabel("Number of Comments")
         plt.ylabel("Rating")
+        plt.savefig('ratings_comments_posts')
         plt.show()
 
     def authors_numPosts_ratings_noOutliers(self, ratingOffset=1, commentsOffest=1):
@@ -159,6 +162,7 @@ class RedditStats:
         plt.title("Ratings, Comments, and Posts by Author")
         plt.xlabel("Number of Comments")
         plt.ylabel("Rating")
+        plt.savefig('ratings_comments_posts')
         plt.show()
 
 
@@ -166,7 +170,7 @@ if __name__ == '__main__':
     #define a reddit object
     reddit = RedditStats()
 
-    reddit.generate_word_cloud(write=True)
+    #reddit.generate_word_cloud()
     #reddit.most_common_authors()
     #reddit.authors_numPosts_ratings()
-    #reddit.authors_numPosts_ratings_noOutliers(2, 2)
+    reddit.authors_numPosts_ratings_noOutliers(2, 2)
