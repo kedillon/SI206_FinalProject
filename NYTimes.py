@@ -22,27 +22,40 @@ def get_dict(search_terms, page = 0):
 
 def scrape_nyt_politics(term):
     politics_dict = get_dict(term)
-    print(politics_dict[term])
+
+    if not politics_dict:
+        return
+
+    #print(politics_dict[term]['response']['docs'][0])
     # get into docs
-    if politics_dict[term] == None:
-        pass
+    # if politics_dict[term] == None:
+    #     return
     else:
-        politics = politics_dict[term]["response"]["docs"]
+        
+        indices = [term, 'response', 'docs']
+
+        for index in indices:
+            if not politics_dict:
+                return None
+            politics_dict = politics_dict.get(index, None)
     
-    return politics
+    return politics_dict
     #print("!!!!!!!!!!!", politics_data)
     
  
 
     
 def politics_data(politics):
+
+    if not politics:
+        return
         #make connection to database
-    conn = sqlite3.connect("Test.sqlite")
+    conn = sqlite3.connect("Final.sqlite")
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS NYT(url TEXT, headline TEXT, date TIMESTAMP, source TEXT, snippet TEXT )")
+    cur.execute("CREATE TABLE IF NOT EXISTS NYT(url TEXT, headline TEXT, date TIMESTAMP, source TEXT )")
     
     #Make Sql file
-    sql = "INSERT INTO NYT (url, headline, date, source, snippet) VALUES (?, ?, ?, ?, ?)"
+    sql = "INSERT INTO NYT (url, headline, date, source) VALUES (?, ?, ?, ?)"
      
     politics_num = 0
     #print(len(politics_data))
@@ -56,7 +69,7 @@ def politics_data(politics):
             #Check to see if politicsData not already in tagit ble
             if politicsData == None:
                 #ADD TO TABLE
-                value = (data["web_url"], data["headline"]["main"], data["pub_date"], data["source"],data['snippet'])
+                value = (data["web_url"], data["headline"]["main"], data["pub_date"], data["source"])
                 cur.execute(sql, value)
         #print(politics_num)
 
@@ -93,6 +106,6 @@ if __name__ == '__main__':
     for term in search_terms:
         politics_data(scrape_nyt_politics(term))
         
-    conn = sqlite3.connect("Test.sqlite")
+    conn = sqlite3.connect("Final.sqlite")
     cur = conn.cursor()
     visual_nyt(cur,search_terms)
