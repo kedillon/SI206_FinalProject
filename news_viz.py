@@ -73,15 +73,15 @@ class NewsSentiment:
 
     def calculations_write_file(self):
         f = open('sentiment_calculations.txt', 'w')
-        f.write('articles_per_outlet counts the number of articles from \neach news outlet in the News table that \nwill be used in the analysis: \n\n')
+        f.write('News Outlet and Number of Items in Database to Be Analyzed:\n')
         for outlet in self.outlet_counts_dict:
-            f.write('{} has {} articles. \n'.format(outlet, self.outlet_counts_dict[outlet]))
-        f.write('---------------------------------\n\ncontent_sentiment_calculator calculates the average \npolarity score for each article and \nadds together those for each news source from the News table: \n\n')
+            f.write('{}, {}\n'.format(outlet, self.outlet_counts_dict[outlet]))
+        f.write('---------------------------------\n\nNews Outlet and Totaled Polarity Score:\n')
         for outlet in self.raw_sia_dict:
-            f.write('{} has a cumulative polarity score of {}.\n'.format(outlet, self.raw_sia_dict[outlet]))
-        f.write('---------------------------------\n\navg_sentiment_per_outlet calculates \nthe average polarity for each \nnews source in the News table: \n\n')
+            f.write('{}, {}\n'.format(outlet, self.raw_sia_dict[outlet]))
+        f.write('---------------------------------\n\nNews Outlet and Average Polarity Score:\n')
         for outlet in self.avg_sia_dict:
-            f.write('{} has an average polarity score of {}.\n'.format(outlet, self.avg_sia_dict[outlet]))
+            f.write('{}, {}\n'.format(outlet, self.avg_sia_dict[outlet]))
         f.close()
 
     def sentiment_chart(self):
@@ -117,5 +117,5 @@ if __name__ == "__main__":
     """can uncomment code below to regenerate each plot individually or rewrite the text file"""
     # news1.sentiment_chart()  
     # news1.sentiment_scatter()
-    # news1.calculations_write_file()
+    news1.calculations_write_file()
 
