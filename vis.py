@@ -68,10 +68,12 @@ class RedditStats:
             author_dict[author] = author_dict.get(author,0) + 1
 
         sorted_authors = sorted(author_dict.items(), key = lambda tup : tup[1], reverse=True)
-        x_axis = [item[0] for item in sorted_authors[:5]]
-        y_axis = [item[1] for item in sorted_authors[:5]]
+        x_axis = [item[0] for item in sorted_authors[:15]]
+        y_axis = [item[1] for item in sorted_authors[:15]]
 
-        graph = plt.bar(x=x_axis, height=y_axis)
+        plt.bar(x=x_axis, height=y_axis)
+        plt.xticks(rotation=90)
+        plt.tight_layout()
         plt.savefig('most_common_authors')
         plt.show()
 
@@ -171,6 +173,6 @@ if __name__ == '__main__':
     reddit = RedditStats()
 
     #reddit.generate_word_cloud()
-    #reddit.most_common_authors()
+    reddit.most_common_authors()
     #reddit.authors_numPosts_ratings()
-    reddit.authors_numPosts_ratings_noOutliers(2, 2)
+    #reddit.authors_numPosts_ratings_noOutliers(2, 2)
