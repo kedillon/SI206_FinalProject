@@ -3,22 +3,22 @@ import requests
 import json
 import sqlite3
 
-def get_dict(search_term):
+def get_dict_by_search(search_term):
     dict = {}
     url = "https://content.guardianapis.com/search?q=" + search_term + "&api-key=" + key
     data = requests.get(url).json()
     return data
 
-def guardian_scrape(search_term):
+def guardian_scrape(token):
 
-    dict = get_dict(search_term)
+    dict = get_dict_by_search(token)
     articles = dict['response']['results']
 
     # make a connection to final project database
     conn = sqlite3.connect('Final.sqlite')
     cur = conn.cursor()
 
-    cur.execute('CREATE TABLE IF NOT EXISTS Guardian(id TEXT, title TEXT, section TEXT, link TEXT)')
+    cur.execute('CREATE TABLE IF NOT EXISTS Guardian(query TEXT, id TEXT, title TEXT, section TEXT, link TEXT)')
 
     num_added = 0
 
@@ -33,7 +33,7 @@ def guardian_scrape(search_term):
         data = cur.fetchone()
         if data == None:
             #add to the table
-            cur.execute('INSERT INTO Guardian(id, title, section, link) VALUES (?,?,?,?)', (id, title, section, link))
+            cur.execute('INSERT INTO Guardian(query, id, title, section, link) VALUES (?,?,?,?,?)', (token, id, title, section, link))
             num_added += 1
 
     conn.commit()
@@ -43,4 +43,4 @@ def guardian_scrape(search_term):
 
 
 if __name__ == '__main__':
-    guardian_scrape("trump")
+    guardian_scrape("political")
