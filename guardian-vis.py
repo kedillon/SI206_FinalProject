@@ -21,6 +21,8 @@ class GuardianStats:
         map = {}
         all_sections = []
 
+        file = open('Guardian-data.txt', 'w+')
+
         for i in range(len(queries)):
             query = queries[i]
             section = sections[i]
@@ -30,10 +32,15 @@ class GuardianStats:
 
             if query not in map:
                 map[query] = {section:1}
+                file.write('query: ' + query.upper() + ' has sections:\n')
+
             elif section not in map[query]:
                 map[query][section] = 1
+                file.write(section + '\n')
             else:
                 map[query][section] += 1
+
+        file.write('\n')
 
 
         q = list(map.keys())
@@ -44,27 +51,28 @@ class GuardianStats:
         for sec in all_sections:
             tup = (map['trump'].get(sec,0), map['politics'].get(sec,0), map['brexit'].get(sec,0), map['earth'].get(sec,0), map['news'].get(sec,0), map['america'].get(sec,0), map['europe'].get(sec,0), map['immigration'].get(sec,0), map['energy'].get(sec,0), map['finance'].get(sec,0), map['economy'].get(sec,0), map['election'].get(sec,0), map['world'].get(sec,0), map['social'].get(sec,0), map['technology'].get(sec,0), map['political'].get(sec,0))
             tups.append(tup)
-            #print(tup)
 
-        #print(labels)
-        print(len(tups))
 
-        plt.bar(x=q, height=tups[0])
+        plot_list = []
+        plot_list.append((plt.bar(x=q, height=tups[0]),all_sections[0]))
         base = tups[0]
 
         for i in range(len(tups)):
             if i == 0:
                 pass
-
-            plt.bar(x=q, height=tups[i], bottom=base)
-
+            plot_list.append((plt.bar(x=q, height=tups[i], bottom=base),all_sections[i]))
             base = tuple(sum(x) for x in zip(base, tups[i]))
+
 
         plt.ylabel('Articles')
         plt.title('Article Categories by Query')
         plt.xticks(rotation=90)
+        plt.legend([item[0] for item in plot_list], [item[1] for item in plot_list], loc=1, fontsize='x-small')
         plt.tight_layout()
+
+        plt.savefig('guardian-sections')
         plt.show()
+
 
 
 if __name__ == '__main__':

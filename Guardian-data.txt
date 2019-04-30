@@ -1,0 +1,99 @@
+query: TRUMP has sections:
+US news
+Opinion
+World news
+Environment
+Politics
+query: POLITICS has sections:
+Politics
+Australia news
+Opinion
+World news
+Film
+query: BREXIT has sections:
+World news
+Books
+query: EARTH has sections:
+US news
+Television & radio
+Life and style
+Film
+Food
+Environment
+Science
+Business
+Culture
+query: NEWS has sections:
+Life and style
+Society
+World news
+Media
+Television & radio
+query: AMERICA has sections:
+Culture
+Music
+Art and design
+Television & radio
+query: EUROPE has sections:
+Music
+World news
+Opinion
+Travel
+Film
+Global development
+query: IMMIGRATION has sections:
+US news
+World news
+Opinion
+query: ENERGY has sections:
+Technology
+Business
+Money
+Film
+World news
+Environment
+query: FINANCE has sections:
+Bank Australia: Clean money
+Money
+Books
+Education
+US news
+Opinion
+query: ECONOMY has sections:
+US news
+Business
+Culture
+Travel
+World news
+query: ELECTION has sections:
+Politics
+Australia news
+US news
+query: WORLD has sections:
+World news
+Books
+Media
+Film
+Politics
+Sport
+query: SOCIAL has sections:
+Society
+Business
+Life and style
+Opinion
+Sport
+World news
+UK news
+query: TECHNOLOGY has sections:
+Technology
+Society
+Guardian Masterclasses
+Opinion
+Transforming the student experience
+Australia news
+query: POLITICAL has sections:
+Music
+World news
+UK news
+Politics
+
