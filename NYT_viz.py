@@ -5,7 +5,7 @@ import sqlite3
 
 class NYT_data():
     def __init__(self):
-        conn = sqlite3.connect("Test.sqlite")
+        conn = sqlite3.connect("Final.sqlite")
         cur = conn.cursor()
         cur.execute("SELECT * FROM NYT")
         self.data = cur.fetchall()
