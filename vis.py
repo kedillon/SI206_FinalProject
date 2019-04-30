@@ -133,4 +133,5 @@ if __name__ == '__main__':
 
     #reddit.generate_word_cloud()
     reddit.most_common_authors()
-    #reddit.authors_numPosts_ratings(10, 10)
+    #reddit.authors_numPosts_ratings()
+    #reddit.authors_numPosts_ratings_noOutliers(2, 2)
