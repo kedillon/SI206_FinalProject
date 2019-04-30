@@ -60,6 +60,8 @@ class GuardianStats:
 
             base = tuple(sum(x) for x in zip(base, tups[i]))
 
+        plt.ylabel('Articles')
+        plt.title('Article Categories by Query')
         plt.xticks(rotation=90)
         plt.tight_layout()
         plt.show()
