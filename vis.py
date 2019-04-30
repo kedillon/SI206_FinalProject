@@ -77,48 +77,7 @@ class RedditStats:
         plt.savefig('most_common_authors')
         plt.show()
 
-    def authors_numPosts_ratings(self):
-
-        author_list = [item[1] for item in self.data]
-        ratings_list = [item[5] for item in self.data]
-        comments_list = [item[6] for item in self.data]
-
-        ratings_dict = {}
-        numPosts_dict = {}
-        comments_dict = {}
-
-        for i in range(len(author_list)):
-            author = author_list[i]
-            numPosts_dict[author] = numPosts_dict.get(author,0) + 1
-
-            #calculates total scores and total comments
-            ratings_dict[author] = ratings_dict.get(author,0) + ratings_list[i]
-            comments_dict[author] = comments_dict.get(author,0) + comments_list[i]
-
-        #calculates average ratings
-        for author in ratings_dict:
-            ratings_dict[author] = (ratings_dict[author] / numPosts_dict[author])
-            comments_dict[author] = (comments_dict[author] / numPosts_dict[author])
-
-        all_data = []
-        for author in numPosts_dict:
-            tup = (numPosts_dict[author] * 50, ratings_dict[author], comments_dict[author])
-            #print(tup)
-            all_data.append(tup)
-
-
-        x_axis = [item[2] for item in all_data]
-        y_axis = [item[1] for item in all_data]
-        radius = [item[0] for item in all_data]
-
-        graph = plt.scatter(x=x_axis, y=y_axis, s=radius, alpha=0.2)
-        plt.title("Ratings, Comments, and Posts by Author")
-        plt.xlabel("Number of Comments")
-        plt.ylabel("Rating")
-        plt.savefig('ratings_comments_posts')
-        plt.show()
-
-    def authors_numPosts_ratings_noOutliers(self, ratingOffset=1, commentsOffest=1):
+    def authors_numPosts_ratings(self, ratingOffset=0, commentsOffest=0):
 
         author_list = [item[1] for item in self.data]
         ratings_list = [item[5] for item in self.data]
@@ -174,5 +133,4 @@ if __name__ == '__main__':
 
     #reddit.generate_word_cloud()
     reddit.most_common_authors()
-    #reddit.authors_numPosts_ratings()
-    #reddit.authors_numPosts_ratings_noOutliers(2, 2)
+    #reddit.authors_numPosts_ratings(10, 10)
