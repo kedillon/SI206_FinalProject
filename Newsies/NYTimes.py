@@ -40,7 +40,6 @@ def scrape_nyt_politics(term):
             politics_dict = politics_dict.get(index, None)
     
     return politics_dict
-    #print("!!!!!!!!!!!", politics_data)
     
  
 
@@ -97,9 +96,9 @@ def visual_nyt(cur, terms):
 
 def calculations_file(headline_count):
         file = open("calculations.txt", "w")
-        file.write("HEADLINE COUNT:\n\n")
+        file.write("headline_count counts the number of times the terms in search terms appear in each headline: \n")
         for term in headline_count:
-            file.write("{}: {} \n".format(term.upper(), headline_count[term]))
+            file.write("{} has {} headlines, ".format(term, headline_count[term]))
     
 if __name__ == '__main__':
     #get_dict()

@@ -1,7 +1,2 @@
-HEADLINE COUNT:
-
-POLITICS: 9 
-IMPEACH: 8 
-TRUMP: 5 
-AMERICA: 2 
-PELOSI: 2 
+headline_count counts the number of times the terms in search terms appear in each headline: 
+politics has 9 headlines, impeach has 8 headlines, trump has 5 headlines, america has 2 headlines, pelosi has 2 headlines, 
